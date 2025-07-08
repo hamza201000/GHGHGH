@@ -25,7 +25,7 @@ func Clean(f string) string {
 	return str
 }
 func Mark(f string) string {
-	line := []rune(Clean(f))
+	line := []rune(f)
 	ismark := false
 	indexmark := 0
 	chngstr := []rune{}
@@ -37,11 +37,13 @@ func Mark(f string) string {
 			indexmark = i
 			ismark = true
 		} else if line[i] == '\'' && ismark {
+			chngstr = append(chngstr, ' ')
 			chngstr = append(chngstr, line[indexmark])
 			chng := []rune(Clean(string(line[indexmark+1 : i])))
 			//fmt.Println(string(line[indexmark+1 : i]))
 			chngstr = append(chngstr, chng...)
 			chngstr = append(chngstr, line[i])
+			chngstr = append(chngstr, ' ')
 			ismark = false
 		} else if !ismark {
 			chngstr = append(chngstr, line[i])
@@ -50,13 +52,13 @@ func Mark(f string) string {
 	if ismark {
 		chngstr = append(chngstr, line[indexmark:]...)
 	}
-	return string(chngstr)
+	return Clean(string(chngstr))
 }
 func main() {
 
 	fmt.Println(Mark("ghg '  hgjhg    hbv ' "))
 	fmt.Println(Mark("    "))
-	fmt.Println(Mark("ghg '  hgjh' g' '   hbv "))
-	fmt.Println(Mark("hhf '     '     '   '   '   '   '"))
+	fmt.Println(Mark("hamza' haj'h 'hjh' "))
+	fmt.Println(Mark("hhf ' h  hjh hjgdqf  '  g   '   '   '   '   '' "))
 
 }
